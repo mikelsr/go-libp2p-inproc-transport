@@ -9,8 +9,8 @@ import (
 	"github.com/libp2p/go-libp2p"
 	"github.com/libp2p/go-libp2p-core/host"
 	"github.com/libp2p/go-libp2p-core/network"
+	inproc "github.com/lthibault/go-libp2p-inproc-transport"
 	"github.com/stretchr/testify/require"
-	inproc "github.com/wetware/go-libp2p-inproc-transport"
 )
 
 func TestIntegration(t *testing.T) {

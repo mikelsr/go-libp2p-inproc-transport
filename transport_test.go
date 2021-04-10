@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/libp2p/go-libp2p"
+	inproc "github.com/lthibault/go-libp2p-inproc-transport"
 	"github.com/stretchr/testify/require"
-	inproc "github.com/wetware/go-libp2p-inproc-transport"
 )
 
 func TestBindInUse(t *testing.T) {
