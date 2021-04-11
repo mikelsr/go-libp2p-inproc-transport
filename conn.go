@@ -3,7 +3,6 @@ package inproc
 import (
 	"context"
 	"errors"
-	"net"
 
 	"github.com/libp2p/go-libp2p-core/crypto"
 	"github.com/libp2p/go-libp2p-core/mux"
@@ -19,7 +18,7 @@ type conn struct {
 	remote *conn
 
 	cq     chan struct{}
-	accept chan *stream
+	accept chan *pipe
 }
 
 func (remote *listener) newConnPair(local *listener) (*conn, *conn) {
@@ -34,7 +33,7 @@ func newConn(l *listener) *conn {
 	return &conn{
 		l:      l,
 		cq:     make(chan struct{}),
-		accept: make(chan *stream),
+		accept: make(chan *pipe),
 	}
 }
 
@@ -61,8 +60,7 @@ func (c *conn) IsClosed() bool {
 
 // OpenStream creates a new stream.
 func (c *conn) OpenStream(ctx context.Context) (mux.MuxedStream, error) {
-	l, r := net.Pipe()
-	local, remote := c.newStream(l), c.remote.newStream(r)
+	local, remote := newPipe()
 
 	select {
 	case <-ctx.Done():

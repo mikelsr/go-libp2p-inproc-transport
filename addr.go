@@ -23,9 +23,7 @@ var proto = multiaddr.Protocol{
 }
 
 func init() {
-	var err error
-
-	if err = multiaddr.AddProtocol(proto); err != nil {
+	if err := multiaddr.AddProtocol(proto); err != nil {
 		panic(err)
 	}
 
