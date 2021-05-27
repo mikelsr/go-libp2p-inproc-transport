@@ -3,10 +3,8 @@ package inproc
 import (
 	"context"
 	"errors"
-	"fmt"
 	"sync"
 
-	"github.com/google/uuid"
 	"github.com/libp2p/go-libp2p-core/crypto"
 	"github.com/libp2p/go-libp2p-core/host"
 	"github.com/libp2p/go-libp2p-core/peer"
@@ -62,13 +60,9 @@ func (t *Transport) CanDial(addr multiaddr.Multiaddr) bool {
 
 // Listen listens on the passed multiaddr.
 func (t *Transport) Listen(laddr multiaddr.Multiaddr) (transport.Listener, error) {
-	s, err := laddr.ValueForProtocol(P_INPROC)
+	laddr, err := Resolve(laddr)
 	if err != nil {
 		return nil, err
-	}
-
-	if s == "~" {
-		laddr = multiaddr.StringCast(fmt.Sprintf("/inproc/%s", uuid.New()))
 	}
 
 	t.env.Lock()

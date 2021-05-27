@@ -2,9 +2,11 @@ package inproc
 
 import (
 	"errors"
+	"fmt"
 	"net"
 	"strings"
 
+	syncutil "github.com/lthibault/util/sync"
 	"github.com/multiformats/go-multiaddr"
 	manet "github.com/multiformats/go-multiaddr/net"
 )
@@ -34,6 +36,33 @@ func init() {
 		ConvertMultiaddr: toInprocNetAddr,
 		Protocol:         proto,
 	})
+}
+
+var c syncutil.Ctr
+
+// Resolve expands a multiaddress in the form "/inproc/~" to a random
+// free address.  It returns all other valid inproc addresses unchanged.
+func Resolve(ma multiaddr.Multiaddr) (multiaddr.Multiaddr, error) {
+	s, err := ma.ValueForProtocol(P_INPROC)
+	if err != nil {
+		return nil, err
+	}
+
+	if s == "~" {
+		ma = multiaddr.StringCast(fmt.Sprintf("/inproc/%016x", c.Incr()))
+	}
+
+	return ma, nil
+}
+
+// ResolveString expands a multiaddress.  See 'Resolve'.
+func ResolveString(addr string) (multiaddr.Multiaddr, error) {
+	ma, err := multiaddr.NewMultiaddr(addr)
+	if err != nil {
+		return nil, err
+	}
+
+	return Resolve(ma)
 }
 
 func toInprocMultiaddr(na net.Addr) (multiaddr.Multiaddr, error) {
