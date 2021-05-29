@@ -58,7 +58,11 @@ func (d *Discoverer) FindPeers(ctx context.Context, ns string, opt ...discovery.
 	}
 
 	as, err := d.Strategy.Select(ctx, opts, d.Env)
-	return infochan(as), err
+	if err != nil {
+		return nil, err
+	}
+
+	return infochan(as)
 }
 
 func (d *Discoverer) options(ns string, opt []discovery.Option) (*discovery.Options, error) {
@@ -152,20 +156,20 @@ func WithPeerID(id peer.ID) discovery.Option {
 	}
 }
 
-func infochan(as AddrSlice) <-chan peer.AddrInfo {
+func infochan(as AddrSlice) (<-chan peer.AddrInfo, error) {
 	ch := make(chan peer.AddrInfo, len(as))
 	defer close(ch)
 
 	for _, ma := range as {
 		info, err := peer.AddrInfoFromP2pAddr(ma)
 		if err != nil {
-			panic(err) // as comes from Env. Guaranteed correct.
+			return nil, err
 		}
 
 		ch <- *info
 	}
 
-	return ch
+	return ch, nil
 }
 
 type validator interface {
