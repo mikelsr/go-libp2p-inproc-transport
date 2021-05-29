@@ -9,9 +9,12 @@ import (
 
 func TestMultiaddr(t *testing.T) {
 	t.Parallel()
+	t.Helper()
 
 	t.Run("ToMultiaddr", func(t *testing.T) {
 		t.Parallel()
+
+		t.Skip("NOT IMPLEMENTED")
 	})
 
 	t.Run("ToNetAddr", func(t *testing.T) {
