@@ -29,13 +29,8 @@ func init() {
 		panic(err)
 	}
 
-	manet.RegisterNetCodec(&manet.NetCodec{
-		NetAddrNetworks:  []string{prefix},
-		ProtocolName:     prefix,
-		ParseNetAddr:     toInprocMultiaddr,
-		ConvertMultiaddr: toInprocNetAddr,
-		Protocol:         proto,
-	})
+	manet.RegisterFromNetAddr(toInprocMultiaddr)
+	manet.RegisterToNetAddr(toInprocNetAddr)
 }
 
 var c syncutil.Ctr
