@@ -25,3 +25,7 @@ h, _ := libp2p.New(
 **Note:** Users may listen on `/inproc/~` to bind to the first available address.  This is equivalent to `/ip4/0.0.0.0`.
 
 ## Stability
+
+As of `v0.1.0`, `go-libp2p-inproc-transport` is considered stable and production-ready.  We will tag a `v1.0` release when `go-libp2p` and `go-libp2p-core` have stable releases.
+
+In the meantime, we reserve the right to make backwards-incompatible changes in order to keep up with changes to these APIs.  Such changes will be accompanied by a minor version increment.
