@@ -10,8 +10,6 @@ import (
 	"github.com/libp2p/go-libp2p-core/mux"
 )
 
-var _ mux.MuxedStream = (*pipe)(nil)
-
 // pipeDeadline is an abstraction for handling timeouts.
 type pipeDeadline struct {
 	mu     sync.Mutex // Guards timer and cancel

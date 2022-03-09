@@ -21,12 +21,12 @@ func TestIntegration(t *testing.T) {
 
 		tpt := inproc.New(inproc.WithEnv(inproc.NewEnv()))
 
-		h0, err := libp2p.New(context.Background(),
+		h0, err := libp2p.New(
 			libp2p.Transport(tpt),
 			libp2p.ListenAddrStrings("/inproc/h0"))
 		require.NoError(t, err)
 
-		h1, err := libp2p.New(context.Background(),
+		h1, err := libp2p.New(
 			libp2p.Transport(tpt),
 			libp2p.ListenAddrStrings("/inproc/h1"))
 		require.NoError(t, err)
@@ -39,12 +39,12 @@ func TestIntegration(t *testing.T) {
 
 		tpt := inproc.New(inproc.WithEnv(inproc.NewEnv()))
 
-		h0, err := libp2p.New(context.Background(),
+		h0, err := libp2p.New(
 			libp2p.Transport(tpt),
 			libp2p.ListenAddrStrings("/inproc/h0"))
 		require.NoError(t, err)
 
-		h1, err := libp2p.New(context.Background(),
+		h1, err := libp2p.New(
 			libp2p.Transport(tpt),
 			libp2p.NoListenAddrs)
 		require.NoError(t, err)

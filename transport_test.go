@@ -20,11 +20,11 @@ func TestReset(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	h0, err := newTestHost(ctx, env)
+	h0, err := newTestHost(env)
 	require.NoError(t, err)
 	defer h0.Close()
 
-	h1, err := newTestHost(ctx, env)
+	h1, err := newTestHost(env)
 	require.NoError(t, err)
 	defer h1.Close()
 
@@ -70,8 +70,8 @@ func TestReset(t *testing.T) {
 	})
 }
 
-func newTestHost(ctx context.Context, env inproc.Env) (host.Host, error) {
-	return libp2p.New(ctx,
+func newTestHost(env inproc.Env) (host.Host, error) {
+	return libp2p.New(
 		libp2p.NoTransports,
 		libp2p.Transport(inproc.New(inproc.WithEnv(env))),
 		libp2p.ListenAddrStrings("/inproc/~")) // auto-bind
