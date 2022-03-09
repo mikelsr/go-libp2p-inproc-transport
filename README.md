@@ -14,7 +14,6 @@ go get -u github.com/lthibault/go-libp2p-inproc-transport
 ## Usage
 
 ```go
-
 h, _ := libp2p.New(
   libp2p.Transport(inproc.New()),
   libp2p.ListenAddrString("/inproc/foo"))
