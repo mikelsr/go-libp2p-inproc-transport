@@ -15,9 +15,13 @@ go get -u github.com/lthibault/go-libp2p-inproc-transport
 
 ```go
 
-h, _ := libp2p.New(context.Context(),
+h, _ := libp2p.New(
   libp2p.Transport(inproc.New()),
   libp2p.ListenAddrString("/inproc/foo"))
 
 // host is reachable at /inproc/foo 
 ```
+
+**Note:** Users may listen on `/inproc/~` to bind to the first available address.  This is equivalent to `/ip4/0.0.0.0`.
+
+## Stability
