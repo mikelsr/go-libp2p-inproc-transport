@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"github.com/libp2p/go-libp2p-core/crypto"
-	"github.com/libp2p/go-libp2p-core/mux"
+	"github.com/libp2p/go-libp2p-core/network"
 	"github.com/libp2p/go-libp2p-core/peer"
 	"github.com/libp2p/go-libp2p-core/transport"
 	"github.com/multiformats/go-multiaddr"
@@ -59,7 +59,7 @@ func (c *conn) IsClosed() bool {
 }
 
 // OpenStream creates a new stream.
-func (c *conn) OpenStream(ctx context.Context) (mux.MuxedStream, error) {
+func (c *conn) OpenStream(ctx context.Context) (network.MuxedStream, error) {
 	local, remote := newPipe()
 
 	select {
@@ -71,13 +71,17 @@ func (c *conn) OpenStream(ctx context.Context) (mux.MuxedStream, error) {
 }
 
 // AcceptStream accepts a stream opened by the other side.
-func (c *conn) AcceptStream() (mux.MuxedStream, error) {
+func (c *conn) AcceptStream() (network.MuxedStream, error) {
 	select {
 	case <-c.cq:
 		return nil, errors.New("closed")
 	case s := <-c.accept:
 		return s, nil
 	}
+}
+
+func (c *conn) Scope() network.ConnScope {
+	return network.NullScope
 }
 
 /* ConnSecurity */

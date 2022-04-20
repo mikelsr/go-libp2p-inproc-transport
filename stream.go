@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/libp2p/go-libp2p-core/mux"
+	"github.com/libp2p/go-libp2p-core/network"
 )
 
 // pipeDeadline is an abstraction for handling timeouts.
@@ -152,7 +152,7 @@ func (p *pipe) read(b []byte) (n int, err error) {
 	case isClosedChan(p.localDone):
 		return 0, io.ErrClosedPipe
 	case isClosedChan(p.localReadDone, p.localReset, p.remoteReset):
-		return 0, mux.ErrReset
+		return 0, network.ErrReset
 	case isClosedChan(p.remoteDone, p.remoteWriteDone):
 		return 0, io.EOF
 	case isClosedChan(p.readDeadline.wait()):
@@ -171,9 +171,9 @@ func (p *pipe) read(b []byte) (n int, err error) {
 	case <-p.remoteWriteDone:
 		return 0, io.EOF
 	case <-p.localReset:
-		return 0, mux.ErrReset
+		return 0, network.ErrReset
 	case <-p.remoteReset:
-		return 0, mux.ErrReset
+		return 0, network.ErrReset
 	case <-p.readDeadline.wait():
 		return 0, os.ErrDeadlineExceeded
 	}
@@ -192,7 +192,7 @@ func (p *pipe) write(b []byte) (n int, err error) {
 	case isClosedChan(p.localDone, p.remoteDone):
 		return 0, io.ErrClosedPipe
 	case isClosedChan(p.remoteReadDone, p.localReset, p.remoteReset):
-		return 0, mux.ErrReset
+		return 0, network.ErrReset
 	case isClosedChan(p.writeDeadline.wait()):
 		return 0, os.ErrDeadlineExceeded
 	}
@@ -210,11 +210,11 @@ func (p *pipe) write(b []byte) (n int, err error) {
 		case <-p.remoteDone:
 			return n, io.ErrClosedPipe
 		case <-p.localReset:
-			return 0, mux.ErrReset
+			return 0, network.ErrReset
 		case <-p.remoteReset:
-			return 0, mux.ErrReset
+			return 0, network.ErrReset
 		case <-p.remoteReadDone:
-			return 0, mux.ErrReset
+			return 0, network.ErrReset
 		case <-p.writeDeadline.wait():
 			return n, os.ErrDeadlineExceeded
 		}

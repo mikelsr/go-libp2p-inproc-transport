@@ -6,7 +6,6 @@ import (
 
 	"github.com/libp2p/go-libp2p"
 	"github.com/libp2p/go-libp2p-core/host"
-	"github.com/libp2p/go-libp2p-core/mux"
 	"github.com/libp2p/go-libp2p-core/network"
 	inproc "github.com/lthibault/go-libp2p-inproc-transport"
 	"github.com/stretchr/testify/require"
@@ -47,10 +46,10 @@ func TestReset(t *testing.T) {
 		close(sync)
 
 		_, err = s.Read(make([]byte, 1))
-		require.ErrorIs(t, err, mux.ErrReset)
+		require.ErrorIs(t, err, network.ErrReset)
 
 		_, err = s.Write(make([]byte, 1))
-		require.ErrorIs(t, err, mux.ErrReset)
+		require.ErrorIs(t, err, network.ErrReset)
 	})
 
 	t.Run("DialerReset", func(t *testing.T) {
@@ -58,10 +57,10 @@ func TestReset(t *testing.T) {
 			defer s.Close()
 
 			_, err = s.Read(make([]byte, 1))
-			require.ErrorIs(t, err, mux.ErrReset)
+			require.ErrorIs(t, err, network.ErrReset)
 
 			_, err = s.Write(make([]byte, 1))
-			require.ErrorIs(t, err, mux.ErrReset)
+			require.ErrorIs(t, err, network.ErrReset)
 		})
 
 		s, err := h1.NewStream(ctx, h0.ID(), "/test/reset/dialer")
