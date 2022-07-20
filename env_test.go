@@ -5,6 +5,7 @@ import (
 
 	inproc "github.com/lthibault/go-libp2p-inproc-transport"
 	"github.com/multiformats/go-multiaddr"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
