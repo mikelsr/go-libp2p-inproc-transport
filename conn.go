@@ -81,7 +81,7 @@ func (c *conn) AcceptStream() (network.MuxedStream, error) {
 }
 
 func (c *conn) Scope() network.ConnScope {
-	return network.NullScope
+	return new(network.NullScope)
 }
 
 /* ConnSecurity */
@@ -91,6 +91,10 @@ func (c *conn) RemotePeer() peer.ID { return c.remote.LocalPeer() }
 
 func (c *conn) LocalPrivateKey() crypto.PrivKey { return c.l.t.pk }
 func (c *conn) RemotePublicKey() crypto.PubKey  { return c.remote.l.t.pk.GetPublic() }
+
+func (c *conn) ConnState() network.ConnectionState {
+	return network.ConnectionState{}
+}
 
 /* ConnMultiaddrs */
 
