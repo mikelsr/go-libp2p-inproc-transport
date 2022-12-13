@@ -27,3 +27,13 @@ func TestMultiaddr(t *testing.T) {
 		require.Equal(t, "/test", a.String())
 	})
 }
+
+func TestResolveString(t *testing.T) {
+	ma, err := ResolveString("/inproc/~")
+	require.NoError(t, err)
+
+	s, err := ma.ValueForProtocol(P_INPROC)
+	require.NoError(t, err)
+	require.NotEmpty(t, s)
+	require.NotEqual(t, "~", s, "should have expanded ~")
+}
