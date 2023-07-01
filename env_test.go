@@ -3,7 +3,7 @@ package inproc_test
 import (
 	"testing"
 
-	inproc "github.com/lthibault/go-libp2p-inproc-transport"
+	inproc "github.com/mikelsr/go-libp2p-inproc-transport"
 	"github.com/multiformats/go-multiaddr"
 
 	"github.com/stretchr/testify/assert"

@@ -7,7 +7,7 @@ import (
 	"net"
 
 	"github.com/google/uuid"
-	"github.com/libp2p/go-libp2p/core/transport"
+	"github.com/mikelsr/go-libp2p/core/transport"
 	"github.com/multiformats/go-multiaddr"
 )
 
